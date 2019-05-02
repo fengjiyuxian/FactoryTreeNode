@@ -94,7 +94,7 @@ function editSubmit(){
         },
         success: function(r) {
             let childHtml = $('#' + factoryId).html();
-            let html = '<span tabindex="0" class="factory" data-toggle="popover" title="Factory Edit" popflag="0" value="'+ factoryId +'"><b>' + $('#editName').val() + '</b> </span> <div class="badge badge-secondary">' + $('#editMin').val() + '/' + $('#editMax').val() + '</div>'
+            let html = '<div style="display:inline-block; width:15%;"> <span tabindex="0" class="factory" data-toggle="popover" title="Factory Edit" popflag="0" value="'+ factoryId +'"><b>' + $('#editName').val() + '</b> </span> </div> <div class="badge badge-secondary">' + $('#editMin').val() + '/' + $('#editMax').val() + '</div>'
             + '<ul id = "' + factoryId + '" factoryName="' + $('#editName').val() +'" min="' + $('#editMin').val() +'" max="' + $('#editMax').val() + '">'
             + '</ul>';
             $('#li-' + factoryId).html(html);
