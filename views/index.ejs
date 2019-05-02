@@ -8,13 +8,8 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="/javascripts/tree.js"></script>
   </head>
   <body>
     <nav class="navbar navbar-expand-md navbar-light bg-light">
@@ -22,30 +17,19 @@
             <img alt="Brand" src="/images/Passport-Lockup.png" style="max-height:30px;max-width:100px;margin-top:-7px;">
         </a>
     </nav> 
+    <div>
+      
+        
+    </div>
     <div class="tree treebody"> 
       <ul>
         <li>
           <ul>
               <li>
-                  <span><b>Root</b></span>
-                  <ul>
-                      <li>
-                          <span><b>Factory1</b></span>
-                          <ul>
-                              <li><span>222</span></li><li><span>123</span></li>
-                          </ul>
-                      </li>
-                      <li>
-                          <span><b>Factory2</b></span>
-                      </li>
-                      <li>
-                          <span><b>Factory3</b></span>
-                          <ul>
-                              <li><span>445</span></li>
-                              <li><span>234</span></li>
-                              <li><span>555</span></li>
-                          </ul>
-                      </li>
+                  <span><b>Root</b></span> <i class="fa fa-plus-circle" data-toggle="modal" data-target="#addModal"></i>
+                  
+                  <ul id="tree_table">
+                    
                   </ul>
               </li>
           </ul>
@@ -53,6 +37,76 @@
       </ul>     
         
     </div>
-   
+
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Add New Factory</h5>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="input-group input-group-sm mb-3 col-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text" >Name</span>
+                      </div>
+                      <input id="addName" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text" >Min</span>
+                      </div>
+                      <input id="addMin" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" >
+                      <div class="input-group-prepend">
+                          <span class="input-group-text" >Max</span>
+                      </div>
+                      <input id="addMax" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" >
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-outline-success" onclick="addSubmit()" data-dismiss="modal">Submit</button>
+              </div>
+          </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Current Factory</h5>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="input-group input-group-sm mb-3 col-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text" >Name</span>
+                      </div>
+                      <input id="editName" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                      <div class="input-group-prepend">
+                          <span class="input-group-text" >Min</span>
+                      </div>
+                      <input id="editMin" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" >
+                      <div class="input-group-prepend">
+                          <span class="input-group-text" >Max</span>
+                      </div>
+                      <input id="editMax" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" >
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-outline-success" data-dismiss="modal" onclick="editSubmit()">Submit</button>
+              </div>
+          </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="/javascripts/tree.js"></script>
   </body>
 </html>

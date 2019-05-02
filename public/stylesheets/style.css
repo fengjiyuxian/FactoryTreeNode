@@ -65,6 +65,7 @@ ul,li{
 }
 .tree span:hover, .tree span:hover+ul span, .tree span:hover+ul li:before, .tree span:hover+ul li:after{
   border-color:orange;
+  cursor:pointer;
 }
 .tree .fa:before{
   margin-right:5px;
