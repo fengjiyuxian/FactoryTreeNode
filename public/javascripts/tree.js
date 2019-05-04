@@ -36,7 +36,7 @@ $(function(){
     });
    
 
-    $.get("factory/", {}, function(r){
+    $.get("/factory", {}, function(r){
         let factories = r.factory;
         let html = '';
         for(let factory of factories){
@@ -68,8 +68,13 @@ function generate(factoryId){
         alert('Please fill items count!');
     }else{
         $('.popover').popover("hide");
-        $.post("factory/generate",{ factoryId: factoryId, count: $('#count_'+factoryId+'').val()}, function(r){
-            console.log(r);
+        $.post("/factory/generate",{ factoryId: factoryId, count: $('#count_'+factoryId+'').val()}, function(r){
+            if(!r){
+                console.log(r);
+            }else{
+                alert(r.error);
+            }
+            
         })
     }
     
@@ -78,10 +83,14 @@ function generate(factoryId){
 function remove(factoryId){
     $('.popover').popover("hide");
     $.ajax({
-        url: 'factory/' + factoryId,
+        url: '/factory/' + factoryId,
         type: 'DELETE',
         success: function(r) {
-            console.log(r);
+            if(!r){
+                console.log(r);
+            }else{
+                alert(r.error);
+            }
         }
     });
 }
@@ -101,8 +110,12 @@ function edit(factoryId){
 
 function addSubmit(){
     $('.popover').popover("hide");
-    $.post("factory/",{ name: $('#addName').val(), min: $('#addMin').val(), max: $('#addMax').val(), status: 1}, function(r){
-        console.log(r);
+    $.post("/factory",{ name: $('#addName').val(), min: $('#addMin').val(), max: $('#addMax').val(), status: 1}, function(r){
+        if(!r){
+            console.log(r);
+        }else{
+            alert(r.error);
+        }
     })
     
 }
@@ -110,7 +123,7 @@ function addSubmit(){
 function editSubmit(){
     var factoryId = $('#editName').attr("factoryId");
     $.ajax({
-        url: 'factory/',
+        url: '/factory',
         type: 'PUT',
         data: { 
             factoryId: factoryId,
@@ -119,7 +132,11 @@ function editSubmit(){
             max: $('#editMax').val()
         },
         success: function(r) {
-            console.log(r);
+            if(!r){
+                console.log(r);
+            }else{
+                alert(r.error);
+            }
         }
     });
     

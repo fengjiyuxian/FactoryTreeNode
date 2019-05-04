@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@hapi/joi": "^15.0.1",
     "@ztree/ztree_v3": "^3.5.40",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",

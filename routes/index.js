@@ -4,12 +4,20 @@ var router = express.Router();
 const Factory = require('../utils/db').Factory;
 const Child = require('../utils/db').Child;
 
+/**
+ * description: render index page
+ * Input: null 
+ */
 router.get('/',function(req, res, next) {
   res.render('index', { 
     title: "index"
   });
 });
 
+/**
+ * description: get all factories
+ * Input: null 
+ */
 router.get('/factory', function(req, res, next) {
   Factory.findAll({
     raw: true
@@ -26,27 +34,45 @@ router.get('/factory', function(req, res, next) {
   });
 })
 
+/**
+ * description: create a factory
+ * Input(body): name, min, max, status
+ */
 router.post('/factory', function(req, res, next) {
+  if(parseInt(req.body.min) > parseInt(req.body.max)){
+    res.status(200).send({
+      error: 'Error: min is bigger max!'
+    });
+    return;
+  }
   Factory.create(req.body).then((set) => {
     res.io.emit('add',{
       factory: set
     });
-    res.status(200).send({
-      factory: set
-    });
+    res.status(200).send(null);
   }).catch((err) => {
-    res.status(400).send({
+    res.status(500).send({
       error: err
     });
   });
 })
 
+/**
+ * description: update a factory
+ * Input(body): name, min, max
+ */
 router.put('/factory', function(req, res, next) {
+  console.log("req",req.body);
+  if(parseInt(req.body.min) > parseInt(req.body.max)){
+    res.status(200).send({
+      error: 'Error: min is bigger max!'
+    });
+    return;
+  }
   let data = {};
   data['name'] = req.body.name;
   data['min'] = req.body.min;
   data['max'] = req.body.max;
-
   Factory.update(data,{
     where:{
       factoryId: req.body.factoryId
@@ -55,16 +81,18 @@ router.put('/factory', function(req, res, next) {
     res.io.emit('edit',{
       factory: req.body
     });
-    res.status(200).send({
-      factory: set
-    });
+    res.status(200).send(null);
   }).catch((err) => {
-    res.status(400).send({
+    res.status(500).send({
       error: err
     });
   });
 })
 
+/**
+ * description: delete a factory
+ * Input(params): factoryId
+ */
 router.delete('/factory/:factoryId', function(req, res, next) {
   Child.destroy({
     where: {
@@ -88,6 +116,10 @@ router.delete('/factory/:factoryId', function(req, res, next) {
   
 })
 
+/**
+ * description: get a factory's children
+ * Input(params): factoryId
+ */
 router.get('/factory/child/:factoryId', function(req, res, next) {
   Child.findAll({
     raw: true,
@@ -125,7 +157,10 @@ router.get('/factory/child/:factoryId', function(req, res, next) {
 router.post('/factory/generate', async function(req, res, next) {
   
   if(req.body.count < 0 || req.body.count > 15){
-    res.status(400).send(null);
+    res.status(200).send({
+      error: 'Wrong count input, should be between 0-15!'
+    });
+    return;
   }else{
     let factory = await Factory.findAll({
       raw: true,
@@ -161,9 +196,7 @@ router.post('/factory/generate', async function(req, res, next) {
         factoryId: req.body.factoryId,
         children: arr
       });
-      res.status(200).send({
-        children: arr
-      });
+      res.status(200).send(null);
     }).catch((err) => {
       res.status(500).send({
         error: err
