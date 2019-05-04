@@ -4,7 +4,6 @@ var router = express.Router();
 const Factory = require('../utils/db').Factory;
 const Child = require('../utils/db').Child;
 
-/* GET home page. */
 router.get('/',function(req, res, next) {
   res.render('index', { 
     title: "index"
@@ -29,6 +28,9 @@ router.get('/factory', function(req, res, next) {
 
 router.post('/factory', function(req, res, next) {
   Factory.create(req.body).then((set) => {
+    res.io.emit('add',{
+      factory: set
+    });
     res.status(200).send({
       factory: set
     });
@@ -50,6 +52,9 @@ router.put('/factory', function(req, res, next) {
       factoryId: req.body.factoryId
     }
   }).then((set) => {
+    res.io.emit('edit',{
+      factory: req.body
+    });
     res.status(200).send({
       factory: set
     });
@@ -71,6 +76,9 @@ router.delete('/factory/:factoryId', function(req, res, next) {
       factoryId: req.params.factoryId
     }
   }).then((set) =>{
+    res.io.emit('remove',{
+      factoryId: req.params.factoryId
+    });
     res.status(200).send(null);
   }).catch((err) => {
     res.status(500).send({
@@ -148,7 +156,11 @@ router.post('/factory/generate', async function(req, res, next) {
       });
     }
     console.log(data,arr);
-    Child.bulkCreate(arr).then((set) => {
+    await Child.bulkCreate(arr).then((set) => {
+      res.io.emit('generate',{
+        factoryId: req.body.factoryId,
+        children: arr
+      });
       res.status(200).send({
         children: arr
       });
@@ -157,6 +169,7 @@ router.post('/factory/generate', async function(req, res, next) {
         error: err
       });
     });
+    
   }
   
 
